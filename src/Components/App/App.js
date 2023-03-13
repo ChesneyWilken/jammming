@@ -7,7 +7,6 @@ import { Playlist } from '../Playlist/Playlist';
 // you pass props and state as an attribute
 
 class App extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -21,34 +20,28 @@ class App extends React.Component {
     };
 
     this.addTrack = this.addTrack.bind(this);
-
+    this.removeTrack = this.removeTrack.bind(this);
+    this.updatePlaylistName = this.updatePlaylistName.bind(this);
   }
 
   addTrack(track) {
-
     let tracks = this.state.playListTracks;
-
     if(tracks.find(savedTrack => savedTrack.id === track.id)){
       return;
     }
-
     tracks.push(track);
-
     this.setState({playListTracks: tracks});
   }
 
   removeTrack(track) {
-
     let tracks = this.state.playListTracks;
-
-    if(tracks.find(savedTrack => savedTrack.id !== track.id)){
-      return;
+    tracks = tracks.filter(currentTrack => currentTrack.id !== track.id)
+    this.setState({playListTracks: tracks});
     }
 
-    
-
-
-  }
+    updatePlaylistName(name) {
+      this.setState({playListname: name})
+    }
 
 
   render() {
@@ -61,7 +54,9 @@ class App extends React.Component {
             <SearchResults searchResults={this.state.searchResults} 
               onAdd={this.addTrack}/>
             <Playlist playListName={this.state.playListName}
-              playListTracks={this.state.playListTracks}/>
+              playListTracks={this.state.playListTracks}
+              onRemove={this.removeTrack}
+              onNameChange={this.updatePlaylistName}/>
           </div>
         </div>
       </div>     
